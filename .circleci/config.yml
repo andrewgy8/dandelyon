@@ -56,9 +56,7 @@ jobs:
           destination: test-reports
 
       - run:
-          name: Run tests
-          command: |
-            sudo docker-php-ext-enable xdebug
-            ./cc-test-reporter before-build
-            sudo vendor/bin/phpunit --coverage-clover clover.xml
-            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+          name: Upload to Code Climate
+          command:
+            - ./cc-test-reporter format-coverage -t simplecov $CIRCLE_ARTIFACTS/coverage/.resultset.json
+            - ./cc-test-reporter upload-coverage
