@@ -2,38 +2,11 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
-version: 2.0
-jobs:
-  build:
-
-    docker:
-      - image: circleci/php:7.1.9-browsers
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          name: Setup dependencies
-          command: |
-            sudo composer self-update
-            composer install -n --prefer-dist
-      - run:
-          name: Setup Code Climate test-reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - run:
-          name: Run tests
-          command: |
-            sudo docker-php-ext-enable xdebug
-            ./cc-test-reporter before-build
-            sudo vendor/bin/phpunit --coverage-clover clover.xml
-            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
-
 version: 2
 jobs:
   build:
     environment:
-      CC_TEST_REPORTER_ID: YOUR_REPO_CC_TEST_REPORTER_ID
+      CC_TEST_REPORTER_ID: 4c4a5c6c02663e4184df73a2a9af08727fba6c13562b26699720016c7172a0c7
     docker:
       # specify the version you desire here
       # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
@@ -42,7 +15,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
+      - image: circleci/php:7.1.9-browsers
 
     working_directory: ~/repo
 
@@ -67,7 +40,11 @@ jobs:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
       - run:
           name: run tests
           command: |
@@ -77,3 +54,11 @@ jobs:
       - store_artifacts:
           path: test-reports
           destination: test-reports
+
+      - run:
+          name: Run tests
+          command: |
+            sudo docker-php-ext-enable xdebug
+            ./cc-test-reporter before-build
+            sudo vendor/bin/phpunit --coverage-clover clover.xml
+            ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
