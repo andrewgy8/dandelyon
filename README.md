@@ -1,5 +1,6 @@
 <a href="https://codeclimate.com/github/andrewgy8/deprecator/maintainability"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/maintainability" /></a>
 <a href="https://codeclimate.com/github/andrewgy8/deprecator/test_coverage"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/test_coverage" /></a>
+[![CircleCI](https://circleci.com/gh/andrewgy8/deprecator.svg?style=svg)](https://circleci.com/gh/andrewgy8/deprecator)
 
 # Deprecator
 
