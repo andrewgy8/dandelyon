@@ -14,7 +14,7 @@ Install with
 `pip install deprecator`
 
 
-A simple deprecation
+**A simple deprecation**
 
 ```
 from deprecator import deprecator
@@ -26,7 +26,7 @@ def foo():
     
 ```
 
-A shuttle from one function to another
+***A shuttle from one function to another**
 
 ```
 def bar():
@@ -39,6 +39,21 @@ def foo():
 res = foo()
 
 print(res) # 'This is new'  
+```
+
+**Or add new parameters...**
+
+```
+def bar(bar, baz):
+    return 'This is new a {} {}'.format(bar, baz)
+
+@deprecator.shuttle(ff=bar)
+def foo():
+    return 'This is old'
+
+res = foo('function', 'junction')
+
+print(res) # 'This is new a function junction'  
 ```
 
 ## Running the tests
