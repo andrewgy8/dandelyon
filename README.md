@@ -55,6 +55,21 @@ res = foo('function', 'junction')
 print(res) # 'This is new a function junction'  
 ```
 
+**Add a time-bomb to your function and shuttle**
+```
+expiry_date = datetime.now() + timedelta(days=1)
+
+def bar(bar, baz):
+    return 'This is new {} {}'.format(bar, baz)
+
+@deprecator.time_bomb(expires=expiry_date, message='Unique String', ff=bar)
+def foo(bar, *args, **kwargs):
+    return 'This is old {}'.format(bar)
+
+foo('function', 'junction') # This is old
+
+```
+
 ## Running the tests
 
 `python setup.py test`
