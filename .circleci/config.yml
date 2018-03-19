@@ -57,6 +57,6 @@ jobs:
 
       - run:
           name: Upload to Code Climate
-          command:
-            - ./cc-test-reporter format-coverage -t simplecov $CIRCLE_ARTIFACTS/coverage/.resultset.json
-            - ./cc-test-reporter upload-coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov $CIRCLE_ARTIFACTS/coverage/.resultset.json
+            ./cc-test-reporter upload-coverage
