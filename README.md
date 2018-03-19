@@ -1,5 +1,4 @@
 <a href="https://codeclimate.com/github/andrewgy8/deprecator/maintainability"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/maintainability" /></a>
-<a href="https://codeclimate.com/github/andrewgy8/deprecator/test_coverage"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/test_coverage" /></a>
 [![CircleCI](https://circleci.com/gh/andrewgy8/deprecator.svg?style=svg)](https://circleci.com/gh/andrewgy8/deprecator)
 
 # Deprecator
@@ -14,7 +13,7 @@ Install with
 `pip install deprecator`
 
 
-**A simple deprecation**
+**A simple deprecation warning** 
 
 ```
 from deprecator import deprecator
@@ -66,7 +65,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 
