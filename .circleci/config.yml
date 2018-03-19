@@ -50,17 +50,10 @@ jobs:
           command: |
             . venv/bin/activate
             coverage run setup.py test
+          post:
+            - ./cc-test-reporter format-coverage -t coverage.py ./.coverage
+            - ./cc-test-reporter upload-coverage
 
       - store_artifacts:
           path: .coverage
           destination: test-reports
-
-      - run:
-          name: Format coverage
-          command: |
-            ./cc-test-reporter format-coverage -t coverage.py ./.coverage
-
-      - run:
-          name: Upload coverage
-          command: |
-            ./cc-test-reporter upload-coverage
