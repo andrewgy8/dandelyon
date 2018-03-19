@@ -28,3 +28,27 @@ class TestShuttleFunction(unittest.TestCase):
         res = foo()
 
         assert res == 'This is new'
+
+    def test_shuttle_function_with_params(self):
+        def bar(bar):
+            return 'This is new {}'.format(bar)
+
+        @deprecator.shuttle(ff=bar)
+        def foo(bar):
+            return 'This is old {}'.format(bar)
+
+        res = foo('function')
+
+        assert res == 'This is new function'
+
+    def test_shuttle_function_with_extra_params(self):
+        def bar(bar, baz):
+            return 'This is new {} {}'.format(bar, baz)
+
+        @deprecator.shuttle(ff=bar)
+        def foo(bar):
+            return 'This is old {}'.format(bar)
+
+        res = foo('function', 'junction')
+
+        assert res == 'This is new function junction'
