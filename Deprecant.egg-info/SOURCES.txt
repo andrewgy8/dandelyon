@@ -1,9 +1,0 @@
-setup.py
-Deprecant.egg-info/PKG-INFO
-Deprecant.egg-info/SOURCES.txt
-Deprecant.egg-info/dependency_links.txt
-Deprecant.egg-info/top_level.txt
-deprecator/__init__.py
-deprecator/deprecator.py
-tests/__init__.py
-tests/test_deprecate.py
