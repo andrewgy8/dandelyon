@@ -13,3 +13,18 @@ class TestDeprecateWarning(unittest.TestCase):
                 return ''
             foo()
             assert "deprecate" in str(w[-1].message)
+
+
+class TestShuttleFunction(unittest.TestCase):
+
+    def test_shuttle_function_without_params(self):
+        def bar():
+            return 'This is new'
+
+        @deprecator.shuttle(ff=bar)
+        def foo():
+            return 'This is old'
+
+        res = foo()
+
+        assert res == 'This is new'

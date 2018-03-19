@@ -11,3 +11,11 @@ def warn(message):
             return func(*args, **kwargs)
         return deprecated_func
     return deprecated_decorator
+
+
+def shuttle(ff):
+    def deprecated_decorator(func):
+        def deprecated_func(*args, **kwargs):
+            return ff(*args, **kwargs)
+        return deprecated_func
+    return deprecated_decorator
