@@ -1,5 +1,6 @@
 certifi==2018.1.18
 chardet==3.0.4
+coverage==4.5.1
 idna==2.6
 pkginfo==1.4.2
 requests==2.18.4
