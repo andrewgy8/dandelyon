@@ -52,11 +52,11 @@ jobs:
             coverage run setup.py test
 
       - store_artifacts:
-          path: test-reports
+          path: .coverage
           destination: test-reports
 
       - run:
           name: Upload to Code Climate
           command: |
-            ./cc-test-reporter format-coverage -t simplecov $CIRCLE_ARTIFACTS/coverage/.resultset.json
+            ./cc-test-reporter format-coverage -t simplecov $CIRCLE_ARTIFACTS/test-reports/.coverage
             ./cc-test-reporter upload-coverage
