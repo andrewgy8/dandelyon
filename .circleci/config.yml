@@ -59,7 +59,7 @@ jobs:
           name: Format coverage
           command: |
             ./cc-test-reporter format-coverage -t coverage.py ./.coverage
-            ./cc-test-reporter upload-coverage
+
       - run:
           name: Upload coverage
           command: |
