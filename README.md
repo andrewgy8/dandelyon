@@ -13,6 +13,9 @@ Install with
 
 `pip install deprecator`
 
+
+A simple deprecation
+
 ```
 from deprecator import deprecator
 
@@ -21,6 +24,21 @@ def foo():
     print('Im old')
     return 
     
+```
+
+A shuttle from one function to another
+
+```
+def bar():
+    return 'This is new'
+
+@deprecator.shuttle(ff=bar)
+def foo():
+    return 'This is old'
+
+res = foo()
+
+print(res) # 'This is new'  
 ```
 
 ## Running the tests
