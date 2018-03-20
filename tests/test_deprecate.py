@@ -1,5 +1,6 @@
 import unittest
 import warnings
+from datetime import datetime, timedelta
 
 from dandelion import deprecator
 
@@ -52,3 +53,31 @@ class TestShuttleFunction(unittest.TestCase):
         res = foo('function', 'junction')
 
         assert res == 'This is new function junction'
+
+
+class TestTimeBombDeprecation(unittest.TestCase):
+    def test_time_bomb_returns_new_function(self):
+        def bar(bar, baz):
+            return 'This is new {} {}'.format(bar, baz)
+
+        @deprecator.spring(expires=datetime.now(), message='Unique String', ff=bar)
+        def foo(bar):
+            return 'This is old {}'.format(bar)
+
+        res = foo('function', 'junction')
+
+        assert res == 'This is new function junction'
+
+    def test_time_bomb_returns_original_function(self):
+        expiry_date = datetime.now() + timedelta(days=1)
+
+        def bar(bar, baz):
+            return 'This is new {} {}'.format(bar, baz)
+
+        @deprecator.spring(expires=expiry_date, message='Unique String', ff=bar)
+        def foo(bar, *args, **kwargs):
+            return 'This is old {}'.format(bar)
+
+        res = foo('function', 'junction')
+
+        assert res == 'This is old function'

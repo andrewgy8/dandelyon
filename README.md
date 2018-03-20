@@ -1,5 +1,4 @@
 <a href="https://codeclimate.com/github/andrewgy8/deprecator/maintainability"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/maintainability" /></a>
-<a href="https://codeclimate.com/github/andrewgy8/deprecator/test_coverage"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/test_coverage" /></a>
 [![CircleCI](https://circleci.com/gh/andrewgy8/deprecator.svg?style=svg)](https://circleci.com/gh/andrewgy8/deprecator)
 
 # Dandelion
@@ -14,7 +13,7 @@ Install with
 `pip install dandelion`
 
 
-**A simple deprecation**
+**A simple deprecation warning** 
 
 ```
 from dandelion import dandelion
@@ -56,6 +55,21 @@ res = foo('function', 'junction')
 print(res) # 'This is new a function junction'  
 ```
 
+**Add a time-bomb to your function and shuttle**
+```
+expiry_date = datetime.now() + timedelta(days=1)
+
+def bar(bar, baz):
+    return 'This is new {} {}'.format(bar, baz)
+
+@deprecator.time_bomb(expires=expiry_date, message='Unique String', ff=bar)
+def foo(bar, *args, **kwargs):
+    return 'This is old {}'.format(bar)
+
+foo('function', 'junction') # This is old
+
+```
+
 ## Running the tests
 
 `python setup.py test`
@@ -66,7 +80,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 
