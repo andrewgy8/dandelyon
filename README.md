@@ -21,7 +21,8 @@ from dandelion import dandelion
 @dandelion.blow(message='This is an old function.')
 def foo():
     print('Im old')
-    return 
+   
+# Warning: This is an old function
     
 ```
 
@@ -44,7 +45,7 @@ print(res) # 'This is new'
 
 ```
 def bar(bar, baz):
-    return 'This is new a {} {}'.format(bar, baz)
+    return 'This is a new {} {}'.format(bar, baz)
 
 @dandelion.shuttle(ff=bar)
 def foo():
@@ -52,21 +53,27 @@ def foo():
 
 res = foo('function', 'junction')
 
-print(res) # 'This is new a function junction'  
+print(res) # 'This is a new function junction'  
 ```
 
 **Add a time-bomb to your function and shuttle**
 ```
-expiry_date = datetime.now() + timedelta(days=1)
+expiry_date = datetime.datetime(2200, 1, 1)
 
 def bar(bar, baz):
-    return 'This is new {} {}'.format(bar, baz)
+    return 'This is new a {} {}'.format(bar, baz)
 
-@deprecator.time_bomb(expires=expiry_date, message='Unique String', ff=bar)
+@deprecator.spring(expires=expiry_date, message='Unique String', ff=bar)
 def foo(bar, *args, **kwargs):
     return 'This is old {}'.format(bar)
 
-foo('function', 'junction') # This is old
+res = foo('function', 'junction')
+
+# Before year 2200
+print(res)  # This is an old function
+
+# Later in time... 
+print(res) # This is a new function junction
 
 ```
 
