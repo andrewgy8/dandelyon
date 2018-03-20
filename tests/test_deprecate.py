@@ -1,14 +1,14 @@
 import unittest
 import warnings
 
-from deprecator import deprecator
+from dandelion import deprecator
 
 
 class TestDeprecateWarning(unittest.TestCase):
 
     def test_throws_warning(self):
         with warnings.catch_warnings(record=True) as w:
-            @deprecator.warn(message='This will deprecate.')
+            @deprecator.blow(message='This will deprecate.')
             def foo():
                 return ''
             foo()
@@ -21,7 +21,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar():
             return 'This is new'
 
-        @deprecator.shuttle(ff=bar)
+        @deprecator.in_the_wind(ff=bar)
         def foo():
             return 'This is old'
 
@@ -33,7 +33,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar(bar):
             return 'This is new {}'.format(bar)
 
-        @deprecator.shuttle(ff=bar)
+        @deprecator.in_the_wind(ff=bar)
         def foo(bar):
             return 'This is old {}'.format(bar)
 
@@ -45,7 +45,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar(bar, baz):
             return 'This is new {} {}'.format(bar, baz)
 
-        @deprecator.shuttle(ff=bar)
+        @deprecator.in_the_wind(ff=bar)
         def foo(bar):
             return 'This is old {}'.format(bar)
 

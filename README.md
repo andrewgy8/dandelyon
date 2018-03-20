@@ -2,7 +2,7 @@
 <a href="https://codeclimate.com/github/andrewgy8/deprecator/test_coverage"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/test_coverage" /></a>
 [![CircleCI](https://circleci.com/gh/andrewgy8/deprecator.svg?style=svg)](https://circleci.com/gh/andrewgy8/deprecator)
 
-# Deprecator
+# Dandelion
 
 Deprecating shouldn't have to be difficult. And indeed should be part of a software's normal lifecycle.  
 
@@ -11,15 +11,15 @@ Deprecating shouldn't have to be difficult. And indeed should be part of a softw
 #### TBA
 Install with 
 
-`pip install deprecator`
+`pip install dandelion`
 
 
 **A simple deprecation**
 
 ```
-from deprecator import deprecator
+from dandelion import dandelion
 
-@deprecator.warn(message='This is an old function.')
+@dandelion.blow(message='This is an old function.')
 def foo():
     print('Im old')
     return 
@@ -32,7 +32,7 @@ def foo():
 def bar():
     return 'This is new'
 
-@deprecator.shuttle(ff=bar)
+@dandelion.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
@@ -47,7 +47,7 @@ print(res) # 'This is new'
 def bar(bar, baz):
     return 'This is new a {} {}'.format(bar, baz)
 
-@deprecator.shuttle(ff=bar)
+@dandelion.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
