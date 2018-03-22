@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 
 LONG_DESCRIPTION = """
-Dandelion is a library for handling deprecation events that occur
+Dandelyon is a library for handling deprecation events that occur
 naturally in software's lifecycle.  
 With the help of some decorators, you can gracefully manage your API's 
 deprecations without user interference. 
@@ -25,13 +25,14 @@ TEST_DEPENDENCIES = [
 ]
 
 VERSION = '0.1.0'
-URL = 'https://github.com/andrewgy8/dandelion'
+URL = 'https://github.com/andrewgy8/dandelyon'
 
 
-setup(name='Dandelion',
+setup(name='Dandelyon',
       version=VERSION,
       description=SHORT_DESCRIPTION,
       long_description=LONG_DESCRIPTION,
+      long_description_content_type="text/markdown",
       url=URL,
       author='Andrew Graham-Yooll',
       author_email='andrewgy8@gmail.com',

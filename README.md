@@ -1,24 +1,27 @@
 <a href="https://codeclimate.com/github/andrewgy8/deprecator/maintainability"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/maintainability" /></a>
 [![CircleCI](https://circleci.com/gh/andrewgy8/deprecator.svg?style=svg)](https://circleci.com/gh/andrewgy8/deprecator)
 
-# Dandelion
+# Dandelyon
 
-Deprecating shouldn't have to be difficult. And indeed should be part of a software's normal lifecycle.  
+Things are born. As time passes, things get old.  And eventually, everything will eventually come to an end.  
+
+This is no different with code.
+
+We believe deprecation should be easy, efficient and predictable.  
 
 ## Getting Started
 
-#### TBA
 Install with 
 
-`pip install dandelion`
+`pip install dandelyon`
 
 
 **A simple deprecation warning** 
 
 ```
-from dandelion import dandelion
+from dandelyon import dandelyon
 
-@dandelion.blow(message='This is an old function.')
+@dandelyon.blow(message='This is an old function.')
 def foo():
     print('Im old')
    
@@ -32,7 +35,7 @@ def foo():
 def bar():
     return 'This is new'
 
-@dandelion.shuttle(ff=bar)
+@dandelyon.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
@@ -47,7 +50,7 @@ print(res) # 'This is new'
 def bar(bar, baz):
     return 'This is a new {} {}'.format(bar, baz)
 
-@dandelion.shuttle(ff=bar)
+@dandelyon.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
@@ -63,7 +66,7 @@ expiry_date = datetime.datetime(2200, 1, 1)
 def bar(bar, baz):
     return 'This is new a {} {}'.format(bar, baz)
 
-@deprecator.spring(expires=expiry_date, message='Unique String', ff=bar)
+@dandelyon.spring(expires=expiry_date, message='Unique String', ff=bar)
 def foo(bar, *args, **kwargs):
     return 'This is old {}'.format(bar)
 
@@ -81,10 +84,6 @@ print(res) # This is a new function junction
 
 `python setup.py test`
 
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
@@ -93,7 +92,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 * **Andrew Graham-Yooll**
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/andrewgy8/dandelyon/contributors) who participated in this project.
 
 ## License
 
