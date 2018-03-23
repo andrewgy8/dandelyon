@@ -1,27 +1,31 @@
-<a href="https://codeclimate.com/github/andrewgy8/deprecator/maintainability"><img src="https://api.codeclimate.com/v1/badges/58843681d3cc1cf5e58c/maintainability" /></a>
-[![CircleCI](https://circleci.com/gh/andrewgy8/deprecator.svg?style=svg)](https://circleci.com/gh/andrewgy8/deprecator)
+<a href="https://codeclimate.com/github/andrewgy8/dandelyon/maintainability"><img src="https://api.codeclimate.com/v1/badges/a86ab4d6ac65f57d09a7/maintainability" /></a>
+[![CircleCI](https://circleci.com/gh/andrewgy8/dandelyon.svg?style=svg)](https://circleci.com/gh/andrewgy8/dandelyon)
 
-# Deprecator
+# Dandelyon
 
-Deprecating shouldn't have to be difficult. And indeed should be part of a software's normal lifecycle.  
+Things are born. As time passes, things get old.  And eventually, everything will eventually come to an end.  
+
+This is no different with code.
+
+We believe deprecation should be easy, efficient and predictable.  
 
 ## Getting Started
 
-#### TBA
 Install with 
 
-`pip install deprecator`
+`pip install dandelyon`
 
 
 **A simple deprecation warning** 
 
 ```
-from deprecator import deprecator
+from dandelyon import dandelyon
 
-@deprecator.warn(message='This is an old function.')
+@dandelyon.blow(message='This is an old function.')
 def foo():
     print('Im old')
-    return 
+   
+# Warning: This is an old function
     
 ```
 
@@ -31,7 +35,7 @@ def foo():
 def bar():
     return 'This is new'
 
-@deprecator.shuttle(ff=bar)
+@dandelyon.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
@@ -44,39 +48,41 @@ print(res) # 'This is new'
 
 ```
 def bar(bar, baz):
-    return 'This is new a {} {}'.format(bar, baz)
+    return 'This is a new {} {}'.format(bar, baz)
 
-@deprecator.shuttle(ff=bar)
+@dandelyon.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
 res = foo('function', 'junction')
 
-print(res) # 'This is new a function junction'  
+print(res) # 'This is a new function junction'  
 ```
 
 **Add a time-bomb to your function and shuttle**
 ```
-expiry_date = datetime.now() + timedelta(days=1)
+expiry_date = datetime.datetime(2200, 1, 1)
 
 def bar(bar, baz):
-    return 'This is new {} {}'.format(bar, baz)
+    return 'This is new a {} {}'.format(bar, baz)
 
-@deprecator.time_bomb(expires=expiry_date, message='Unique String', ff=bar)
+@dandelyon.spring(expires=expiry_date, message='Unique String', ff=bar)
 def foo(bar, *args, **kwargs):
     return 'This is old {}'.format(bar)
 
-foo('function', 'junction') # This is old
+res = foo('function', 'junction')
+
+# Before year 2200
+print(res)  # This is an old function
+
+# Later in time... 
+print(res) # This is a new function junction
 
 ```
 
 ## Running the tests
 
 `python setup.py test`
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
@@ -86,7 +92,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 * **Andrew Graham-Yooll**
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/andrewgy8/dandelyon/contributors) who participated in this project.
 
 ## License
 

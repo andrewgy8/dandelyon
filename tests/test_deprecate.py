@@ -2,14 +2,14 @@ import unittest
 import warnings
 from datetime import datetime, timedelta
 
-from deprecator import deprecator
+from dandelyon import dandelyon
 
 
 class TestDeprecateWarning(unittest.TestCase):
 
     def test_throws_warning(self):
         with warnings.catch_warnings(record=True) as w:
-            @deprecator.warn(message='This will deprecate.')
+            @dandelyon.blow(message='This will deprecate.')
             def foo():
                 return ''
             foo()
@@ -22,7 +22,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar():
             return 'This is new'
 
-        @deprecator.shuttle(ff=bar)
+        @dandelyon.in_the_wind(ff=bar)
         def foo():
             return 'This is old'
 
@@ -34,7 +34,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar(bar):
             return 'This is new {}'.format(bar)
 
-        @deprecator.shuttle(ff=bar)
+        @dandelyon.in_the_wind(ff=bar)
         def foo(bar):
             return 'This is old {}'.format(bar)
 
@@ -46,7 +46,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar(bar, baz):
             return 'This is new {} {}'.format(bar, baz)
 
-        @deprecator.shuttle(ff=bar)
+        @dandelyon.in_the_wind(ff=bar)
         def foo(bar):
             return 'This is old {}'.format(bar)
 
@@ -60,7 +60,7 @@ class TestTimeBombDeprecation(unittest.TestCase):
         def bar(bar, baz):
             return 'This is new {} {}'.format(bar, baz)
 
-        @deprecator.time_bomb(expires=datetime.now(), message='Unique String', ff=bar)
+        @dandelyon.spring(expires=datetime.now(), message='Unique String', ff=bar)
         def foo(bar):
             return 'This is old {}'.format(bar)
 
@@ -74,7 +74,7 @@ class TestTimeBombDeprecation(unittest.TestCase):
         def bar(bar, baz):
             return 'This is new {} {}'.format(bar, baz)
 
-        @deprecator.time_bomb(expires=expiry_date, message='Unique String', ff=bar)
+        @dandelyon.spring(expires=expiry_date, message='Unique String', ff=bar)
         def foo(bar, *args, **kwargs):
             return 'This is old {}'.format(bar)
 

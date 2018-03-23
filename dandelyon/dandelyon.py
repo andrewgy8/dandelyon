@@ -2,7 +2,12 @@ import warnings
 from datetime import datetime
 
 
-def warn(message):
+def blow(message):
+    """
+    Blows a warning at the user
+    :param message: 
+    :return: 
+    """
     def deprecated_decorator(func):
         def deprecated_func(*args, **kwargs):
             warnings.warn("{} is a deprecated function. {}".format(func.__name__, message),
@@ -14,7 +19,29 @@ def warn(message):
     return deprecated_decorator
 
 
-def time_bomb(expires, message, ff):
+def in_the_wind(ff):
+    """
+    Shuttles a function from the deprecated function 
+    to another valid function specified by the user
+    :param ff: 
+    :return: 
+    """
+    def deprecated_decorator(func):
+        def deprecated_func(*args, **kwargs):
+            return ff(*args, **kwargs)
+        return deprecated_func
+    return deprecated_decorator
+
+
+def spring(expires, message, ff):
+    """
+    Like in_the_wind(), it shuttles the function, 
+    but based on a time factor. 
+    :param expires: 
+    :param message: 
+    :param ff: 
+    :return: 
+    """
     def deprecated_decorator(func):
         def deprecated_func(*args, **kwargs):
             date_time = expires.strftime("%d-%m-%Y")
@@ -30,13 +57,3 @@ def time_bomb(expires, message, ff):
                 return ff(*args, **kwargs)
         return deprecated_func
     return deprecated_decorator
-
-
-def shuttle(ff):
-    def deprecated_decorator(func):
-        def deprecated_func(*args, **kwargs):
-            return ff(*args, **kwargs)
-        return deprecated_func
-    return deprecated_decorator
-
-
