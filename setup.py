@@ -42,7 +42,7 @@ TEST_DEPENDENCIES = [
     'coverage',
 ]
 
-VERSION = '0.1.0'
+VERSION = '0.1.2'
 URL = 'https://github.com/andrewgy8/dandelyon'
 
 
