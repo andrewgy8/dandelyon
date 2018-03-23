@@ -5,7 +5,7 @@
 import os
 import sys
 from setuptools import setup, find_packages
-from setuptools.command import install
+from setuptools.command.install import install
 
 
 class VerifyVersionCommand(install):
