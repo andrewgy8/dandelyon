@@ -36,7 +36,7 @@ def in_the_wind(ff):
 def spring(expires, message, ff):
     """
     Like in_the_wind(), it shuttles the function, 
-    but based on a time factor. 
+    but based on a time factor and throws a warning message. 
     :param expires: 
     :param message: 
     :param ff: 
@@ -46,11 +46,11 @@ def spring(expires, message, ff):
         def deprecated_func(*args, **kwargs):
             date_time = expires.strftime("%d-%m-%Y")
             warnings.warn("{} is a deprecated function and it "
-                          "will be destroyed by {}. {}"
+                          "will be removed by {}. {}"
                           .format(func.__name__, date_time, message),
-                          category=DeprecationWarning,
+                          category=PendingDeprecationWarning,
                           stacklevel=2)
-            warnings.simplefilter('default', DeprecationWarning)
+            warnings.simplefilter('default', PendingDeprecationWarning)
             if datetime.now() < expires:
                 return func(*args, **kwargs)
             else:
