@@ -3,11 +3,13 @@
 
 # Dandelyon
 
-Things are born. As time passes, things get old.  And eventually, everything will eventually come to an end.  
+Things are born and as time passes, things get old.  Eventually, everything will come to an end.  
 
 This is no different with code.
 
-We believe deprecation should be easy, efficient and predictable.  
+Deprecation should be easy, efficient and predictable.  
+
+With the the help of a few decorator functions, you can communicate to your users any changes occurring in upcoming releases.
 
 ## Getting Started
 
