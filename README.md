@@ -21,11 +21,14 @@ Install with
 ```
 from dandelyon import dandelyon
 
-@dandelyon.blow(message='This is an old function.')
+@dandelyon.blow(message='Please consider using bar()')
 def foo():
-    print('Im old')
+    return 'Fire!'
    
-# Warning: This is an old function
+res = foo()
+print(res) # 'Fire'
+# In your logs
+# "Warning: Foo is a deprecated function. Please consider using bar()"  
     
 ```
 
@@ -41,7 +44,8 @@ def foo():
 
 res = foo()
 
-print(res) # 'This is new'  
+print(res) 
+# 'This is new'  
 ```
 
 **Or add new parameters...**
@@ -50,33 +54,40 @@ print(res) # 'This is new'
 def bar(bar, baz):
     return 'This is a new {} {}'.format(bar, baz)
 
-@dandelyon.shuttle(ff=bar)
+@dandelyon.in_the_wind(ff=bar)
 def foo():
     return 'This is old'
 
 res = foo('function', 'junction')
 
-print(res) # 'This is a new function junction'  
+print(res)  
+# 'This is a new function junction'  
 ```
 
-**Add a time-bomb to your function and shuttle**
+**Add a date where the function will deprecate and forward**
 ```
 expiry_date = datetime.datetime(2200, 1, 1)
 
 def bar(bar, baz):
     return 'This is new a {} {}'.format(bar, baz)
 
-@dandelyon.spring(expires=expiry_date, message='Unique String', ff=bar)
+@dandelyon.spring(expires=expiry_date, 
+                  message='Please consider using bar().', 
+                  ff=bar)
 def foo(bar, *args, **kwargs):
     return 'This is old {}'.format(bar)
 
 res = foo('function', 'junction')
 
 # Before year 2200
-print(res)  # This is an old function
+print(res)  
+# This is an old function
+# In your logs:
+# Warning: "foo() is a deprecated function and it will be removed by 1-1-2200. Please consider using bar()."
 
 # Later in time... 
-print(res) # This is a new function junction
+print(res) 
+# This is a new function junction
 
 ```
 
