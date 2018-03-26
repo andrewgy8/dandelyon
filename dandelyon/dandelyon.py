@@ -2,7 +2,7 @@ import warnings
 from datetime import datetime
 
 
-def blow(message):
+def warn(message):
     """
     Blows a warning at the user
     :param message: 
@@ -19,7 +19,7 @@ def blow(message):
     return deprecated_decorator
 
 
-def in_the_wind(ff):
+def alias(ff):
     """
     Shuttles a function from the deprecated function 
     to another valid function specified by the user
@@ -33,9 +33,9 @@ def in_the_wind(ff):
     return deprecated_decorator
 
 
-def spring(expires, message, ff):
+def countdown(expires, message, ff):
     """
-    Like in_the_wind(), it shuttles the function, 
+    Like alias(), it shuttles the function, 
     but based on a time factor and throws a warning message. 
     :param expires: 
     :param message: 
