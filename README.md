@@ -3,9 +3,9 @@
 
 # Dandelyon
 
-Things are born and as time passes, things get old.  Eventually, everything will come to an end.  
+Eventually, everything will come to an end.  
 
-This is no different with code.
+There is no difference with code.
 
 Deprecation should be easy, efficient and predictable.  
 
@@ -92,6 +92,10 @@ print(res)
 # This is a new function junction
 
 ```
+
+## Dependencies
+
+**None**
 
 ## Running the tests
 
