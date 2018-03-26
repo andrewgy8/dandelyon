@@ -34,9 +34,7 @@ SHORT_DESCRIPTION = """
 A library for handling deprecation warnings and events.
 """.strip()
 
-DEPENDENCIES = [
-    'six',
-]
+DEPENDENCIES = []
 
 TEST_DEPENDENCIES = [
     'coverage',
