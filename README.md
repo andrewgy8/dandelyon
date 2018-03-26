@@ -23,12 +23,14 @@ Install with
 ```
 from dandelyon import dandelyon
 
-@dandelyon.blow(message='Please consider using bar()')
+@dandelyon.warn(message='Please consider using bar()')
 def foo():
     return 'Fire!'
    
 res = foo()
-print(res) # 'Fire'
+print(res) 
+# 'Fire'
+-----
 # In your logs
 # "Warning: Foo is a deprecated function. Please consider using bar()"  
     
@@ -56,7 +58,7 @@ print(res)
 def bar(bar, baz):
     return 'This is a new {} {}'.format(bar, baz)
 
-@dandelyon.in_the_wind(ff=bar)
+@dandelyon.alias(ff=bar)
 def foo():
     return 'This is old'
 
@@ -73,17 +75,18 @@ expiry_date = datetime.datetime(2200, 1, 1)
 def bar(bar, baz):
     return 'This is new a {} {}'.format(bar, baz)
 
-@dandelyon.spring(expires=expiry_date, 
+@dandelyon.countdown(expires=expiry_date, 
                   message='Please consider using bar().', 
                   ff=bar)
 def foo(bar, *args, **kwargs):
-    return 'This is old {}'.format(bar)
+    return 'This is an old {}'.format(bar)
 
 res = foo('function', 'junction')
 
 # Before year 2200
 print(res)  
-# This is an old function
+# 'This is an old function'
+-----
 # In your logs:
 # Warning: "foo() is a deprecated function and it will be removed by 1-1-2200. Please consider using bar()."
 
