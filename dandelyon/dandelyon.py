@@ -2,58 +2,60 @@ import warnings
 from datetime import datetime
 
 
-def warn(message):
-    """
-    Blows a warning at the user
-    :param message: 
-    :return: 
-    """
-    def deprecated_decorator(func):
-        def deprecated_func(*args, **kwargs):
-            warnings.warn("{} is a deprecated function. {}".format(func.__name__, message),
+class warn(object):
+
+    def __init__(self, message):
+        self.message = message
+
+    def __call__(self, f):
+
+        def wrapped_f(*args, **kwargs):
+            warnings.warn("{} is a deprecated function. {}"
+                          .format(f.__name__, self.message),
                           category=DeprecationWarning,
                           stacklevel=2)
             warnings.simplefilter('default', DeprecationWarning)
-            return func(*args, **kwargs)
-        return deprecated_func
-    return deprecated_decorator
+            return f(*args, **kwargs)
+        return wrapped_f
 
 
-def alias(ff):
-    """
-    Shuttles a function from the deprecated function 
-    to another valid function specified by the user
-    :param ff: 
-    :return: 
-    """
-    def deprecated_decorator(func):
-        def deprecated_func(*args, **kwargs):
-            return ff(*args, **kwargs)
-        return deprecated_func
-    return deprecated_decorator
+class alias(object):
+
+    def __init__(self, ff):
+        self.ff = ff
+
+    def __call__(self, f):
+
+        def wrapped_f(*args, **kwargs):
+            return self.ff(*args, **kwargs)
+        return wrapped_f
 
 
-def countdown(expires, message, ff):
+class countdown(object):
     """
-    Like alias(), it shuttles the function, 
-    but based on a time factor and throws a warning message. 
-    :param expires: 
-    :param message: 
-    :param ff: 
-    :return: 
+    Like alias(), it shuttles the function,
+    but based on a time factor and throws a warning message.
+    :param expires:
+    :param message:
+    :param ff:
+    :return:
     """
-    def deprecated_decorator(func):
-        def deprecated_func(*args, **kwargs):
-            date_time = expires.strftime("%d-%m-%Y")
+    def __init__(self, expires, message, ff):
+        self.expires = expires
+        self.message = message
+        self.ff = ff
+
+    def __call__(self, f):
+        def wrapped_f(*args, **kwargs):
+            date_time = self.expires.strftime("%d-%m-%Y")
             warnings.warn("{} is a deprecated function and it "
                           "will be removed by {}. {}"
-                          .format(func.__name__, date_time, message),
+                          .format(f.__name__, date_time, self.message),
                           category=PendingDeprecationWarning,
                           stacklevel=2)
             warnings.simplefilter('default', PendingDeprecationWarning)
-            if datetime.now() < expires:
-                return func(*args, **kwargs)
+            if datetime.now() < self.expires:
+                return f(*args, **kwargs)
             else:
-                return ff(*args, **kwargs)
-        return deprecated_func
-    return deprecated_decorator
+                return self.ff(*args, **kwargs)
+        return wrapped_f
