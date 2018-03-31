@@ -2,27 +2,28 @@ import warnings
 from datetime import datetime
 
 
-class Deprecator(object):
+class _Deprecator(object):
     def __init__(self, message):
         self.message = message
 
     def throw_warning(self, f):
-        warnings.warn("{} is a deprecated function. {}"
-                      .format(f.__name__, self.message),
-                      category=DeprecationWarning,
-                      stacklevel=2)
-        warnings.simplefilter('default', DeprecationWarning)
+        _Deprecator.__warn("{} is a deprecated function. {}"
+                           .format(f.__name__, self.message))
 
     def throw_expiry_warning(self, f, date_time):
-        warnings.warn("{} is a deprecated function and it "
-                      "will be removed by {}. {}"
-                      .format(f.__name__, date_time, self.message),
+        _Deprecator.__warn("{} is a deprecated function and it "
+                           "will be removed by {}. {}"
+                           .format(f.__name__, date_time, self.message))
+
+    @staticmethod
+    def __warn(message_str):
+        warnings.warn(message_str,
                       category=PendingDeprecationWarning,
                       stacklevel=2)
         warnings.simplefilter('default', PendingDeprecationWarning)
 
 
-class warn(Deprecator):
+class warn(_Deprecator):
     """
     Blows a warning at the user
     :param message: 
@@ -57,7 +58,7 @@ class alias(object):
         return wrapped_f
 
 
-class countdown(Deprecator):
+class countdown(_Deprecator):
     """
     Like alias(), it shuttles the function,
     but based on a time factor and throws a warning message.
