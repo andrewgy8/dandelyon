@@ -6,11 +6,24 @@ class _Deprecator(object):
     def __init__(self, message):
         self.message = message
 
+    def __call__(self, f):
+        def wrapped_f(*args, **kwargs):
+            return self.logic_wrapper(f, *args, **kwargs)
+        return wrapped_f
+
+    def logic_wrapper(self, f, *args, **kwargs):
+        pass
+
     def throw_warning(self, f):
+        if not self.message:
+            return
         _Deprecator.__warn("{} is a deprecated function. {}"
                            .format(f.__name__, self.message))
 
     def throw_expiry_warning(self, f, date_time):
+        if not self.message:
+            return
+
         _Deprecator.__warn("{} is a deprecated function and it "
                            "will be removed by {}. {}"
                            .format(f.__name__, date_time, self.message))
@@ -23,6 +36,16 @@ class _Deprecator(object):
         warnings.simplefilter('default', PendingDeprecationWarning)
 
 
+class _FFDeprecator(_Deprecator):
+    """
+    Fast-forward class used for pushing a function to another
+    when the user designates that the function is deprecated.
+    """
+    def __init__(self, message, ff):
+        super().__init__(message)
+        self.ff = ff
+
+
 class warn(_Deprecator):
     """
     Blows a warning at the user
@@ -32,16 +55,12 @@ class warn(_Deprecator):
     def __init__(self, message):
         super().__init__(message)
 
-    def __call__(self, f):
-
-        def wrapped_f(*args, **kwargs):
-            self.throw_warning(f)
-
-            return f(*args, **kwargs)
-        return wrapped_f
+    def logic_wrapper(self, f, *args, **kwargs):
+        self.throw_warning(f)
+        return f(*args, **kwargs)
 
 
-class alias(object):
+class alias(_FFDeprecator):
     """
     Shuttles a function from the deprecated function 
     to another valid function specified by the user
@@ -49,16 +68,13 @@ class alias(object):
     :return: 
     """
     def __init__(self, ff):
-        self.ff = ff
+        super().__init__(message=None, ff=ff)
 
-    def __call__(self, f):
-
-        def wrapped_f(*args, **kwargs):
-            return self.ff(*args, **kwargs)
-        return wrapped_f
+    def logic_wrapper(self, f, *args, **kwargs):
+        return self.ff(*args, **kwargs)
 
 
-class countdown(_Deprecator):
+class countdown(_FFDeprecator):
     """
     Like alias(), it shuttles the function,
     but based on a time factor and throws a warning message.
@@ -67,19 +83,25 @@ class countdown(_Deprecator):
     :param ff:
     :return:
     """
+    _CALLED = None
+
     def __init__(self, expires, message, ff):
-        super().__init__(message)
+        super().__init__(message=message, ff=ff)
         self.expires = expires
-        self.ff = ff
 
-    def __call__(self, f):
-        def wrapped_f(*args, **kwargs):
-            date_time = self.expires.strftime("%d-%m-%Y")
+    def logic_wrapper(self, f, *args, **kwargs):
+        if self._CALLED:
+            return self.shuttle(f, *args, **kwargs)
 
-            self.throw_expiry_warning(f, date_time)
+        date_time = self.expires.strftime("%d-%m-%Y")
 
-            if datetime.now() < self.expires:
-                return f(*args, **kwargs)
-            else:
-                return self.ff(*args, **kwargs)
-        return wrapped_f
+        self.throw_expiry_warning(f, date_time)
+        self._CALLED = True
+
+        return self.shuttle(f, *args, **kwargs)
+
+    def shuttle(self, f, *args, **kwargs):
+        if datetime.now() < self.expires:
+            return f(*args, **kwargs)
+        else:
+            return self.ff(*args, **kwargs)

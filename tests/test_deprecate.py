@@ -60,7 +60,9 @@ class TestCountdownDeprecation(unittest.TestCase):
         def bar(bam, baz):
             return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.countdown(expires=datetime.now(), message='Unique String', ff=bar)
+        @dandelyon.countdown(expires=datetime.now(),
+                             message='Unique String',
+                             ff=bar)
         def foo(bam):
             return 'This is old {}'.format(bam)
 
@@ -68,20 +70,31 @@ class TestCountdownDeprecation(unittest.TestCase):
 
         assert res == 'This is new function junction'
 
-    def test_countdown_returns_original_function_and_warning(self):
+    def test_countdown_does_not_warn_twice(self):
         expiry_date = datetime.now() + timedelta(days=1)
 
         def bar(bam, baz):
             return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.countdown(expires=expiry_date, message='Unique String', ff=bar)
+        @dandelyon.countdown(expires=expiry_date,
+                             message='Test Deprecation',
+                             ff=bar)
         def foo(bam, *args, **kwargs):
             return 'This is old {}'.format(bam)
 
         with warnings.catch_warnings(record=True) as w:
-
             res = foo('function', 'junction')
+            res2 = foo('function', 'junction')
+
         assert "is a deprecated function and it " \
                "will be removed by" in str(w[-1].message)
-        assert res == 'This is old function'
+
+        assert (res and res2) == 'This is old function'
+
+        assert len(w) == 1
+
+
+
+
+
 
