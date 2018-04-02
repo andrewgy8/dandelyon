@@ -1,0 +1,8 @@
+[paths]
+source = /dandelyon/*
+
+[run]
+omit =
+    setup.py
+    tests/*
+    */.virtualenvs/*
