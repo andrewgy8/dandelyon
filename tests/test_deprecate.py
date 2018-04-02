@@ -31,53 +31,70 @@ class TestShuttleFunction(unittest.TestCase):
         assert res == 'This is new'
 
     def test_shuttle_function_with_params(self):
-        def bar(bar):
-            return 'This is new {}'.format(bar)
+        def bar(bam):
+            return 'This is new {}'.format(bam)
 
         @dandelyon.alias(ff=bar)
-        def foo(bar):
-            return 'This is old {}'.format(bar)
+        def foo(bam):
+            return 'This is old {}'.format(bam)
 
         res = foo('function')
 
         assert res == 'This is new function'
 
     def test_shuttle_function_with_extra_params(self):
-        def bar(bar, baz):
-            return 'This is new {} {}'.format(bar, baz)
+        def bar(bam, baz):
+            return 'This is new {} {}'.format(bam, baz)
 
         @dandelyon.alias(ff=bar)
-        def foo(bar):
-            return 'This is old {}'.format(bar)
+        def foo(bam):
+            return 'This is old {}'.format(bam)
 
         res = foo('function', 'junction')
 
         assert res == 'This is new function junction'
 
 
-class TestTimeBombDeprecation(unittest.TestCase):
-    def test_time_bomb_returns_new_function(self):
-        def bar(bar, baz):
-            return 'This is new {} {}'.format(bar, baz)
+class TestCountdownDeprecation(unittest.TestCase):
+    def test_countdown_returns_new_function(self):
+        def bar(bam, baz):
+            return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.countdown(expires=datetime.now(), message='Unique String', ff=bar)
-        def foo(bar):
-            return 'This is old {}'.format(bar)
+        @dandelyon.countdown(expires=datetime.now(),
+                             message='Unique String',
+                             ff=bar)
+        def foo(bam):
+            return 'This is old {}'.format(bam)
 
         res = foo('function', 'junction')
 
         assert res == 'This is new function junction'
 
-    def test_time_bomb_returns_original_function(self):
+    def test_countdown_does_not_warn_twice(self):
         expiry_date = datetime.now() + timedelta(days=1)
 
-        def bar(bar, baz):
-            return 'This is new {} {}'.format(bar, baz)
+        def bar(bam, baz):
+            return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.countdown(expires=expiry_date, message='Unique String', ff=bar)
-        def foo(bar, *args, **kwargs):
-            return 'This is old {}'.format(bar)
+        @dandelyon.countdown(expires=expiry_date,
+                             message='Test Deprecation',
+                             ff=bar)
+        def foo(bam, *args, **kwargs):
+            return 'This is old {}'.format(bam)
 
-        res = foo('function', 'junction')
+        with warnings.catch_warnings(record=True) as w:
+            res = foo('function', 'junction')
+            res2 = foo('function', 'junction')
 
-        assert res == 'This is old function'
+        assert "is a deprecated function and it " \
+               "will be removed by" in str(w[-1].message)
+
+        assert (res and res2) == 'This is old function'
+
+        assert len(w) == 1
+
+
+
+
+
+
