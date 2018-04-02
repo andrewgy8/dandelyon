@@ -3,6 +3,10 @@ from datetime import datetime
 
 
 class _Deprecator(object):
+    """
+    Base deprecation class used to contain logic 
+    controller and warning functions.
+    """
     def __init__(self, message):
         self.message = message
 
@@ -16,13 +20,13 @@ class _Deprecator(object):
 
     def throw_warning(self, f):
         if not self.message:
-            return
+            return None
         _Deprecator.__warn("{} is a deprecated function. {}"
                            .format(f.__name__, self.message))
 
     def throw_expiry_warning(self, f, date_time):
         if not self.message:
-            return
+            return None
 
         _Deprecator.__warn("{} is a deprecated function and it "
                            "will be removed by {}. {}"
@@ -38,7 +42,7 @@ class _Deprecator(object):
 
 class _FFDeprecator(_Deprecator):
     """
-    Fast-forward class used for pushing a function to another
+    Fast-forward class. Used for pushing a function to another
     when the user designates that the function is deprecated.
     """
     def __init__(self, message, ff):
@@ -48,7 +52,8 @@ class _FFDeprecator(_Deprecator):
 
 class warn(_Deprecator):
     """
-    Blows a warning at the user
+    Blows a standard warning at the user. 
+    
     :param message: 
     :return: 
     """
@@ -63,7 +68,8 @@ class warn(_Deprecator):
 class alias(_FFDeprecator):
     """
     Shuttles a function from the deprecated function 
-    to another valid function specified by the user
+    to another valid function specified by the user.
+    
     :param ff: 
     :return: 
     """
@@ -78,6 +84,7 @@ class countdown(_FFDeprecator):
     """
     Like alias(), it shuttles the function,
     but based on a time factor and throws a warning message.
+    
     :param expires:
     :param message:
     :param ff:
@@ -103,5 +110,4 @@ class countdown(_FFDeprecator):
     def shuttle(self, f, *args, **kwargs):
         if datetime.now() < self.expires:
             return f(*args, **kwargs)
-        else:
-            return self.ff(*args, **kwargs)
+        return self.ff(*args, **kwargs)
