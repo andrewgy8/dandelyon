@@ -47,12 +47,14 @@ jobs:
             chmod +x ./cc-test-reporter
       - run:
           name: run tests
+          pre:
+            - ./cc-test-reporter before-build
           command: |
             . venv/bin/activate
             coverage run setup.py test
           post:
             - ./cc-test-reporter format-coverage -t coverage.py ./.coverage
-            - ./cc-test-reporter upload-coverage
+            - ./cc-test-reporter after-build --exit-code $?
 
       - store_artifacts:
           path: .coverage
