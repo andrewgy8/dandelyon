@@ -1,4 +1,4 @@
-# Dandelyon
+# Dandelyon :blossom:
 
 <a href="https://codeclimate.com/github/andrewgy8/dandelyon/maintainability"><img src="https://api.codeclimate.com/v1/badges/a86ab4d6ac65f57d09a7/maintainability" /></a>
 [![CircleCI](https://circleci.com/gh/andrewgy8/dandelyon.svg?style=svg)](https://circleci.com/gh/andrewgy8/dandelyon)
