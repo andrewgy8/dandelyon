@@ -22,9 +22,9 @@ Install with
 **A simple deprecation warning** 
 
 ```
-from dandelyon import dandelyon
+from dandelyon import deprecators
 
-@dandelyon.warn(message='Please consider using bar()')
+@deprecators.warn(message='Please consider using bar()')
 def foo():
     return 'Fire!'
    
@@ -37,13 +37,13 @@ print(res)
     
 ```
 
-***A shuttle from one function to another**
+**A shuttle from one function to another**
 
 ```
 def bar():
     return 'This is new'
 
-@dandelyon.shuttle(ff=bar)
+@deprecators.shuttle(ff=bar)
 def foo():
     return 'This is old'
 
@@ -59,7 +59,7 @@ print(res)
 def bar(bar, baz):
     return 'This is a new {} {}'.format(bar, baz)
 
-@dandelyon.alias(ff=bar)
+@deprecators.alias(ff=bar)
 def foo():
     return 'This is old'
 
@@ -69,14 +69,14 @@ print(res)
 # 'This is a new function junction'  
 ```
 
-**Add a date where the function will deprecate and forward**
+**Add a date where the function will deprecate and forward to another function**
 ```
 expiry_date = datetime.datetime(2200, 1, 1)
 
 def bar(bar, baz):
     return 'This is new a {} {}'.format(bar, baz)
 
-@dandelyon.countdown(expires=expiry_date, 
+@deprecators.countdown(expires=expiry_date, 
                   message='Please consider using bar().', 
                   ff=bar)
 def foo(bar, *args, **kwargs):
@@ -108,12 +108,6 @@ print(res)
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Authors
-
-* **Andrew Graham-Yooll**
-
-See also the list of [contributors](https://github.com/andrewgy8/dandelyon/contributors) who participated in this project.
 
 ## License
 
