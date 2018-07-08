@@ -2,14 +2,14 @@ import unittest
 import warnings
 from datetime import datetime, timedelta
 
-from dandelyon import dandelyon
+from dandelyon import deprecators
 
 
 class TestDeprecateWarning(unittest.TestCase):
 
     def test_throws_warning(self):
         with warnings.catch_warnings(record=True) as w:
-            @dandelyon.warn(message='This will deprecate.')
+            @deprecators.warn(message='This will deprecate.')
             def foo():
                 return ''
             foo()
@@ -22,7 +22,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar():
             return 'This is new'
 
-        @dandelyon.alias(ff=bar)
+        @deprecators.alias(ff=bar)
         def foo():
             return 'This is old'
 
@@ -34,7 +34,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar(bam):
             return 'This is new {}'.format(bam)
 
-        @dandelyon.alias(ff=bar)
+        @deprecators.alias(ff=bar)
         def foo(bam):
             return 'This is old {}'.format(bam)
 
@@ -46,7 +46,7 @@ class TestShuttleFunction(unittest.TestCase):
         def bar(bam, baz):
             return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.alias(ff=bar)
+        @deprecators.alias(ff=bar)
         def foo(bam):
             return 'This is old {}'.format(bam)
 
@@ -60,9 +60,9 @@ class TestCountdownDeprecation(unittest.TestCase):
         def bar(bam, baz):
             return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.countdown(expires=datetime.now(),
-                             message='Unique String',
-                             ff=bar)
+        @deprecators.countdown(expires=datetime.now(),
+                               message='Unique String',
+                               ff=bar)
         def foo(bam):
             return 'This is old {}'.format(bam)
 
@@ -76,9 +76,9 @@ class TestCountdownDeprecation(unittest.TestCase):
         def bar(bam, baz):
             return 'This is new {} {}'.format(bam, baz)
 
-        @dandelyon.countdown(expires=expiry_date,
-                             message='Test Deprecation',
-                             ff=bar)
+        @deprecators.countdown(expires=expiry_date,
+                               message='Test Deprecation',
+                               ff=bar)
         def foo(bam, *args, **kwargs):
             return 'This is old {}'.format(bam)
 
@@ -94,7 +94,25 @@ class TestCountdownDeprecation(unittest.TestCase):
         assert len(w) == 1
 
 
+class TestPythonVersionWarning(unittest.TestCase):
+    def test_returns_warning_when_python_version_is_being_deprecated(self):
+        @deprecators.version(py_version='3.5')
+        def foo():
+            return 'This is old'
 
+        with warnings.catch_warnings(record=True) as w:
+            res = foo()
 
+        assert "foo is a deprecated function" in str(w[-1].message)
+        assert res == 'This is old'
 
+    def test_returns_no_warning_when_python_version_is_ok(self):
+        @deprecators.version(py_version='3.9')
+        def foo():
+            return 'This is old'
 
+        with warnings.catch_warnings(record=True) as w:
+            res = foo()
+
+        assert w == []
+        assert res == 'This is old'
